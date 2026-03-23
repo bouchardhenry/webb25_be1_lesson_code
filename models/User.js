@@ -26,20 +26,10 @@ const userSchema = new mongoose.Schema({
         minLength: 6,
         select: false
     },
-<<<<<<< HEAD
-    resetCode: {
-        type: String,
-        select: false
-    },
-    resetCodeExpiry: {
-        type: Date,
-        select: false
-=======
     resetPasswordCode: {
         type: String,
         required: false,
         default: null,
->>>>>>> 6321ffb3ba1118df4077653e80a0ef8e0bc82d0a
     }
 }, {
     timestamps: true

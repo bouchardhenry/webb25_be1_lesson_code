@@ -1,10 +1,7 @@
 import { Router } from "express";
 import { verifyAccessToken, verifyRefreshToken } from "../utils/tokens.js";
-<<<<<<< HEAD
-import { getUserById, registerUser, loginUser, refreshAccessToken, requestPasswordReset } from "../db/auth.js";
-=======
 import { getUserById, registerUser, loginUser, refreshAccessToken, requestPassword, confirmPasswordReset } from "../db/auth.js";
->>>>>>> 6321ffb3ba1118df4077653e80a0ef8e0bc82d0a
+import { requireAuth } from "../middlewares/auth.js";
 
 const authRouter = Router();
 
@@ -73,7 +70,7 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-authRouter.get("/me", async (req, res) => {
+authRouter.get("/me", requireAuth, async (req, res) => {
 
   let userId = null;
   try {

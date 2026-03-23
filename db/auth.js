@@ -63,29 +63,6 @@ export async function refreshAccessToken(refreshToken) {
     throw new Error("Invalid refresh token");
   }
 
-<<<<<<< HEAD
-    const user = await getUserById(userId)
-    if (!user) {
-        throw new Error("User not found");
-    }
-    const accessToken = generateAccessToken(userId)
-    return { accessToken };
-}
-
-export async function requestPasswordReset(email) {
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) throw new Error("User not found");
-
-    const resetCode = Math.random().toString(36).slice(2, 8).toUpperCase(); // for example A3KX9Z
-    const resetCodeExpiry = new Date(Date.now() + 1000 * 60 * 15); // 15 minutes
-
-    user.resetCode = resetCode;
-    user.resetCodeExpiry = resetCodeExpiry;
-    await user.save();
-
-    return { resetCode };
-}
-=======
   const user = await getUserById(userId);
   if (!user) {
     throw new Error("User not found");
@@ -125,4 +102,3 @@ export async function confirmPasswordReset(email, code, newPassword) {
     message: "Password has been reset",
   };
 }
->>>>>>> 6321ffb3ba1118df4077653e80a0ef8e0bc82d0a
