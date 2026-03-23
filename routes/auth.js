@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { verifyAccessToken, verifyRefreshToken } from "../utils/tokens.js";
+<<<<<<< HEAD
 import { getUserById, registerUser, loginUser, refreshAccessToken, requestPasswordReset } from "../db/auth.js";
+=======
+import { getUserById, registerUser, loginUser, refreshAccessToken, requestPassword, confirmPasswordReset } from "../db/auth.js";
+>>>>>>> 6321ffb3ba1118df4077653e80a0ef8e0bc82d0a
 
 const authRouter = Router();
 
@@ -141,35 +145,41 @@ authRouter.post("/refresh", async (req, res) => {
   }
 })
 
-authRouter.post("/forgot-password", async (req, res) => {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email required" });
+authRouter.post("/reset-password/request", async (req, res) => {
+  const { email } = req.body
+  if(!email) {
+    return res.status(400).json({
+      message: "Email is required",
+    });
+  }
+  const result = await requestPassword(email)
 
-    try {
-        const { resetCode } = await requestPasswordReset(email); // TODO: skicka resetCode via email (t.ex. med nodemailer)
-        return res.json({ message: "Reset code sent", resetCode }); // ta bort resetCode ur svaret i produktion
-    } catch (err) {
-        return res.status(400).json({ message: "Could not send reset code" });
-    }
-});
+  return res.json(result)
+
+})
 
 authRouter.patch("/reset-password/confirm", async (req, res) => {
   const {email, code} = req.query
   const {password} = req.body
-
-  const user = await User.findOne({
-    email, resetPasswordCode: code
-  })
-
-  if(!user) {
-
+  if(!email || !code) {
+    return res.status(400).json({
+      message: "Email and Code query params is required",
+    });
+  }
+  if(!password) {
+    return res.status(400).json({
+      message: "Password is required",
+    });
   }
 
-  await User.updateOne({
-    
-  })
-
+  try {
+    const result = await confirmPasswordReset(email, code, password)
+    return res.json(result)
+  } catch (error) {
+    return res.status(401).json({
+      message: "Unable to reset password"
+    })
+  }
 })
-
 
 export default authRouter;
