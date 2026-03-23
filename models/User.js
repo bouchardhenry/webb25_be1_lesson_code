@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minLength: 6,
         select: false
+    },
+    resetCode: {
+        type: String,
+        select: false
+    },
+    resetCodeExpiry: {
+        type: Date,
+        select: false
     }
 }, {
     timestamps: true

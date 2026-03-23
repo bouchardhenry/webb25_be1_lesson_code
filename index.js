@@ -27,7 +27,11 @@ app.get("/register", (req, res) => {
     res.sendFile("auth/register.html", { root: "frontend" })
 })
 
-app.use("/auth", authRouter)
+app.get("/auth/register", (req, res) => {
+    res.sendFile("auth/register.html", { root: "frontend" })
+})
+
+app.use("/api/auth", authRouter)
 app.use("/api/artists", artistRouter)
 app.use("/api/songs", songRouter)
 app.use("/api/albums", albumRouter)

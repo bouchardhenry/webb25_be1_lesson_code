@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyAccessToken, verifyRefreshToken } from "../utils/tokens.js";
-import { getUserById, registerUser, loginUser, refreshAccessToken } from "../db/auth.js";
+import { getUserById, registerUser, loginUser, refreshAccessToken, requestPasswordReset } from "../db/auth.js";
 
 const authRouter = Router();
 
@@ -140,4 +140,36 @@ authRouter.post("/refresh", async (req, res) => {
     })
   }
 })
+
+authRouter.post("/forgot-password", async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email required" });
+
+    try {
+        const { resetCode } = await requestPasswordReset(email); // TODO: skicka resetCode via email (t.ex. med nodemailer)
+        return res.json({ message: "Reset code sent", resetCode }); // ta bort resetCode ur svaret i produktion
+    } catch (err) {
+        return res.status(400).json({ message: "Could not send reset code" });
+    }
+});
+
+authRouter.patch("/reset-password/confirm", async (req, res) => {
+  const {email, code} = req.query
+  const {password} = req.body
+
+  const user = await User.findOne({
+    email, resetPasswordCode: code
+  })
+
+  if(!user) {
+
+  }
+
+  await User.updateOne({
+    
+  })
+
+})
+
+
 export default authRouter;
