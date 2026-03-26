@@ -67,7 +67,7 @@ export async function refreshAccessToken(refreshToken) {
   if (!user) {
     throw new Error("User not found");
   }
-  const accessToken = generateAccessToken(userId);
+  const accessToken = generateAccessToken(userId, decodedToken.role);
   return { accessToken };
 }
 
