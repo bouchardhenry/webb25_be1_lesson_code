@@ -5,9 +5,15 @@ import {
   verifyRefreshToken,
 } from "../utils/tokens.js";
 
+<<<<<<< HEAD
 function _generateTokens(userId, role) {
   const accessToken = generateAccessToken(userId, role);
   const refreshToken = generateRefreshToken(userId);
+=======
+function _generateTokens(user) {
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+>>>>>>> 53c0d95923e6e27ecd2ffe03a9a9ff541e1e87f6
   return { accessToken, refreshToken };
 }
 
@@ -20,7 +26,11 @@ function _getUserObject(user) {
 export async function registerUser(name, email, password) {
   const newUser = new User({ name, email, password });
   await newUser.save();
+<<<<<<< HEAD
   const { accessToken, refreshToken } = _generateTokens(newUser.id, newUser.role);
+=======
+  const { accessToken, refreshToken } = _generateTokens(newUser);
+>>>>>>> 53c0d95923e6e27ecd2ffe03a9a9ff541e1e87f6
 
   const userObject = _getUserObject(newUser);
 
@@ -41,7 +51,11 @@ export async function loginUser(email, password) {
   if (!isSamePassword) {
     throw new Error("Invalid credentials");
   }
+<<<<<<< HEAD
   const { accessToken, refreshToken } = _generateTokens(user.id, user.role);
+=======
+  const { accessToken, refreshToken } = _generateTokens(user);
+>>>>>>> 53c0d95923e6e27ecd2ffe03a9a9ff541e1e87f6
 
   const userObject = _getUserObject(user);
 
